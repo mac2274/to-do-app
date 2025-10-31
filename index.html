@@ -4,20 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./src/output.css" rel="stylesheet">
+    <link href="./src/output.css?v=2" rel="stylesheet">
 
     <title>To-Do-App</title>
 </head>
 
-<body class="min-h-screen w-full">
-    <div class="flex flex-col justify-center items-center bg-black h-screen w-full">
+<body class="min-h-screen w-full bg-black ">
+    <div class="flex flex-col justify-center items-center h-screen w-full">
         <h1 class="text-6xl text-orange-400 hover:font-bold hover:border-1 rounded-2xl p-4 cursor-pointer">To-Do-App!
         </h1>
 
         <div class="listContainer hidden flex-col px-4 pt-8">
             <form action="">
                 <label for="" class="text-white hyphens-none text-2xl flex items-center gap-4 ">Erstelle dein To-Do:
-                    <input type="text" name="inputField" placeholder="To-Do erstellen" class="border-1 border-white p-2 rounded-2xl">
+                    <input type="text" name="inputField" placeholder="To-Do erstellen"
+                        class="border-1 border-white p-2 rounded-2xl">
                     <input type="submit" value="erstellen" id="submitInput" name="submitInput"
                         class="border-1 border-white p-2 rounded-2xl">
                 </label>
@@ -37,7 +38,7 @@
         // Öffnet die App
         function openList() {
             const parent = h1.parentElement;
-            parent.classList.add('justify-start', 'items-start', 'text-3xl');
+            parent.className = "justify-start items-start text-3xl";
             // Hover komplett deaktivieren
             h1.style.pointerEvents = 'none';
 
@@ -48,8 +49,10 @@
             let newInput = document.querySelector('input').value;
             console.log(newInput);
             const newListelememt = document.createElement('li');
-            newListelememt.classList.add('text-white', 'list-disc', 'list-inside', 'font-xs');
-            newListelememt.textContent = newInput;
+            newListelememt.className = "relative flex items-center gap-4 text-white list-disc list-outside font-xs";
+            newListelememt.innerHTML = `<span class="flex items-center w-4 h-4 bg-orange-400 rounded-full ml-3">&#9675;</span>
+                                        <span class="flex-1 top-0 left-0 flex justify-around gap-4 w-fit">${newInput}</span> 
+                                        <button class="deleteBtn border-1 rounded-2xl p-2 hover:bg-white hover:text-orange-400 transition-all duration-500" title="Dieses To-do löschen.">x</button>`;
             document.querySelector('ul').appendChild(newListelememt);
             // div in dem Li für funktionalität
             const divInside = document.createElement('div');
@@ -71,6 +74,10 @@
                 document.querySelector('h2').classList.remove('hidden');
                 addToList();
             }
+            if (event.target.classList.contains('deleteBtn')) {
+                event.target.closest('li').remove();
+            }
+
         })
 
     </script>
