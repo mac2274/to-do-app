@@ -25,8 +25,8 @@
             </form>
             <!-- `<button class="deleteBtn bg-red-500 hover:bg-green-500 p-2">X</button>` -->
 
-            <h2 class="hidden pt-10 text-orange-400">Hier deine Liste:</h2>
-            <ul class="list flex gap-y-4 flex-col"></ul>
+            <h2 class="hidden pt-10 text-orange-400">Erstellte To-Dos:</h2>
+            <ul class="list flex gap-y-2 flex-col"></ul>
         </div>
     </div>
 
@@ -44,33 +44,35 @@
             parent.className = "justify-start items-start text-3xl";
             // Hover komplett deaktivieren
             h1.style.pointerEvents = 'none';
+            h1.innerText = "To-Dos:";
             listContainer.classList.remove('hidden');
         }
 
         function addToList() {
             let newInput = document.querySelector('input').value;
+            const existingError = document.querySelector('.erroringExist');
+
             if (newInput.trim() === '') {
                 // wenn kein Tesxt eingegeben, dann ErrorMessage
-                const errorMsg = document.createElement('em');
-                errorMsg.className = 'text-white text-sm';
-                errorMsg.innerText = "Kein Inhalt angegeben. Bitte im Feld ein To-Do erstellen.";
-                // errorMsg vor der Liste einfügen
-                list.parentNode.insertBefore(errorMsg, list);
-
+                if (!existingError) {
+                    const errorMsg = document.createElement('em');
+                    errorMsg.className = 'erroringExist text-white text-sm';
+                    errorMsg.innerText = "Kein Inhalt angegeben. Bitte im Feld ein To-Do erstellen.";
+                    // errorMsg vor der Liste einfügen
+                    list.parentNode.insertBefore(errorMsg, list);
+                }
                 return; // Funktion beenden
-            } 
-            // prüfen, ob errorMsg immer noch existiert, wenn ja: löschen 
-            const erroringExist = document.querySelector('em');
-            if (erroringExist) {
-                erroringExist.remove();
             }
             // To-Do wird erstellt
+            // prüfen, ob errorMsg immer noch existiert, wenn ja: löschen 
+            if (existingError) {
+                existingError.remove();
+            }
             const newListelememt = document.createElement('li');
-            newListelememt.className = "relative flex items-center gap-4 text-white list-disc text-xs m-4";
+            newListelememt.className = "relative flex items-center gap-4 text-white list-disc text-xs";
             newListelememt.innerHTML = `<span class="flex items-center w-4 h-4 bg-orange-400 rounded-full ml-3"></span>
                                         <span class="flex-1 top-0 left-0 flex justify-start gap-4 w-fit">${newInput}</span> 
                                         <button class="deleteBtn border-1 rounded-2xl p-2 font-bold hover:cursor-pointer hover:bg-white hover:text-orange-400 transition-all duration-500" title="Dieses To-do löschen.">X</button>`;
-
             list.appendChild(newListelememt);
             document.querySelector('input').value = '';
         }
@@ -82,7 +84,6 @@
             if (event.target === submitInput) {
                 event.preventDefault();
                 document.querySelector('h2').classList.remove('hidden');
-
                 addToList();
             }
             if (event.target.classList.contains('deleteBtn')) {
