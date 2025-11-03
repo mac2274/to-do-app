@@ -37,3 +37,7 @@ button{
 .test-hover:hover {
     background: blue;
 }
+
+.text-orange{
+    color: orange;
+}

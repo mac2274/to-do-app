@@ -7,7 +7,9 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+    --color-red-500: oklch(63.7% 0.237 25.331);
     --color-orange-400: oklch(75% 0.183 55.934);
+    --color-green-500: oklch(72.3% 0.219 149.579);
     --color-black: #000;
     --color-white: #fff;
     --spacing: 0.25rem;
@@ -19,6 +21,8 @@
     --text-6xl--line-height: 1;
     --font-weight-bold: 700;
     --radius-2xl: 1rem;
+    --default-transition-duration: 150ms;
+    --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
   }
@@ -172,11 +176,32 @@
   }
 }
 @layer utilities {
+  .relative {
+    position: relative;
+  }
+  .top-0 {
+    top: calc(var(--spacing) * 0);
+  }
+  .top-6 {
+    top: calc(var(--spacing) * 6);
+  }
+  .left-0 {
+    left: calc(var(--spacing) * 0);
+  }
+  .m-4 {
+    margin: calc(var(--spacing) * 4);
+  }
+  .ml-3 {
+    margin-left: calc(var(--spacing) * 3);
+  }
   .flex {
     display: flex;
   }
   .hidden {
     display: none;
+  }
+  .h-4 {
+    height: calc(var(--spacing) * 4);
   }
   .h-screen {
     height: 100vh;
@@ -184,14 +209,23 @@
   .min-h-screen {
     min-height: 100vh;
   }
+  .w-4 {
+    width: calc(var(--spacing) * 4);
+  }
+  .w-fit {
+    width: fit-content;
+  }
   .w-full {
     width: 100%;
+  }
+  .flex-1 {
+    flex: 1;
   }
   .cursor-pointer {
     cursor: pointer;
   }
-  .list-inside {
-    list-style-position: inside;
+  .list-outside {
+    list-style-position: outside;
   }
   .list-disc {
     list-style-type: disc;
@@ -205,6 +239,9 @@
   .items-start {
     align-items: flex-start;
   }
+  .justify-around {
+    justify-content: space-around;
+  }
   .justify-center {
     justify-content: center;
   }
@@ -214,8 +251,14 @@
   .gap-4 {
     gap: calc(var(--spacing) * 4);
   }
+  .gap-y-4 {
+    row-gap: calc(var(--spacing) * 4);
+  }
   .rounded-2xl {
     border-radius: var(--radius-2xl);
+  }
+  .rounded-full {
+    border-radius: calc(infinity * 1px);
   }
   .border-1 {
     border-style: var(--tw-border-style);
@@ -226,6 +269,12 @@
   }
   .bg-black {
     background-color: var(--color-black);
+  }
+  .bg-orange-400 {
+    background-color: var(--color-orange-400);
+  }
+  .bg-red-500 {
+    background-color: var(--color-red-500);
   }
   .p-2 {
     padding: calc(var(--spacing) * 2);
@@ -238,6 +287,9 @@
   }
   .pt-8 {
     padding-top: calc(var(--spacing) * 8);
+  }
+  .pt-10 {
+    padding-top: calc(var(--spacing) * 10);
   }
   .text-2xl {
     font-size: var(--text-2xl);
@@ -261,11 +313,41 @@
   .text-white {
     color: var(--color-white);
   }
+  .transition-all {
+    transition-property: all;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
+  .duration-500 {
+    --tw-duration: 500ms;
+    transition-duration: 500ms;
+  }
+  .hover\:cursor-pointer {
+    &:hover {
+      @media (hover: hover) {
+        cursor: pointer;
+      }
+    }
+  }
   .hover\:border-1 {
     &:hover {
       @media (hover: hover) {
         border-style: var(--tw-border-style);
         border-width: 1px;
+      }
+    }
+  }
+  .hover\:bg-green-500 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-green-500);
+      }
+    }
+  }
+  .hover\:bg-white {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-white);
       }
     }
   }
@@ -277,14 +359,51 @@
       }
     }
   }
+  .hover\:text-orange-400 {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-orange-400);
+      }
+    }
+  }
 }
 li {
   font-size: 0.8em;
+}
+button {
+  font-size: 0.5em !important;
+}
+.deleteBtn {
+  border: 2px solid white;
+  border-radius: 50%;
+  padding: 0.3rem 0.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.deleteBtn:hover {
+  background: white !important;
+  color: orange !important;
+}
+.test-hover {
+  background: red;
+  padding: 1rem;
+  color: white;
+  cursor: pointer;
+}
+.test-hover:hover {
+  background: blue;
+}
+.text-orange {
+  color: orange;
 }
 @property --tw-border-style {
   syntax: "*";
   inherits: false;
   initial-value: solid;
+}
+@property --tw-duration {
+  syntax: "*";
+  inherits: false;
 }
 @property --tw-font-weight {
   syntax: "*";
@@ -294,6 +413,7 @@ li {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
       --tw-border-style: solid;
+      --tw-duration: initial;
       --tw-font-weight: initial;
     }
   }
