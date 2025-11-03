@@ -7,3 +7,33 @@ li {
 button{
     font-size: 0.5em!important;
 }
+
+/* button:hover {
+    cursor: pointer!important;
+    background: white!important;
+    color: black!important;
+} */
+
+.deleteBtn {
+    border: 2px solid white;
+    border-radius: 50%;
+    padding: 0.3rem 0.5rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.deleteBtn:hover {
+    background: white !important;
+    color: orange !important;
+}
+
+/* Test Div */
+.test-hover {
+    background: red;
+    padding: 1rem;
+    color: white;
+    cursor: pointer;
+}
+.test-hover:hover {
+    background: blue;
+}

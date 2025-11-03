@@ -15,7 +15,7 @@
         </h1>
 
         <div class="listContainer hidden flex-col px-4 pt-8">
-            <form action="">
+            <form action="" class="insertToDo m-4">
                 <label for="" class="text-white hyphens-none text-2xl flex items-center gap-4 ">Erstelle dein To-Do:
                     <input type="text" name="inputField" placeholder="To-Do erstellen"
                         class="border-1 border-white p-2 rounded-2xl">
@@ -23,9 +23,10 @@
                         class="border-1 border-white p-2 rounded-2xl">
                 </label>
             </form>
+            <!-- `<button class="deleteBtn bg-red-500 hover:bg-green-500 p-2">X</button>` -->
 
-            <h2 class="hidden text-white pt-8">Hier deine Liste:</h2>
-            <ul class="list flex flex-col"></ul>
+            <h2 class="hidden text-white pt-10 text-orange-400">Hier deine Liste:</h2>
+            <ul class="list flex gap-y-4 flex-col"></ul>
         </div>
     </div>
 
@@ -34,6 +35,8 @@
         const h1 = document.querySelector('h1');
         const listContainer = document.querySelector('.listContainer');
         const submitInput = document.querySelector('#submitInput');
+        const list = document.querySelector('.list');
+
 
         // Öffnet die App
         function openList() {
@@ -41,27 +44,34 @@
             parent.className = "justify-start items-start text-3xl";
             // Hover komplett deaktivieren
             h1.style.pointerEvents = 'none';
-
             listContainer.classList.remove('hidden');
         }
 
         function addToList() {
             let newInput = document.querySelector('input').value;
-            console.log(newInput);
+            if (newInput.trim() === '') {
+                // wenn kein Tesxt eingegeben, dann ErrorMessage
+                const errorMsg = document.createElement('em');
+                errorMsg.className = 'text-white font-sm top-6';
+                errorMsg.innerText = "Kein Inhalt angegeben. Bitte im Feld ein To-Do erstellen.";
+                // errorMsg vor der Liste einfügen
+                list.parentNode.insertBefore(errorMsg, list);
+
+                return; // Funktion beenden
+            } 
+            // prüfen, ob errorMsg immer noch existiert, wenn ja: löschen 
+            const erroringExist = document.querySelector('em');
+            if (erroringExist) {
+                erroringExist.remove();
+            }
+            // To-Do wird erstellt
             const newListelememt = document.createElement('li');
-            newListelememt.className = "relative flex items-center gap-4 text-white list-disc list-outside font-xs";
+            newListelememt.className = "relative flex items-center gap-4 text-white list-disc list-outside font-xs m-4";
             newListelememt.innerHTML = `<span class="flex items-center w-4 h-4 bg-orange-400 rounded-full ml-3">&#9675;</span>
                                         <span class="flex-1 top-0 left-0 flex justify-around gap-4 w-fit">${newInput}</span> 
-                                        <button class="deleteBtn border-1 rounded-2xl p-2 hover:bg-white hover:text-orange-400 transition-all duration-500" title="Dieses To-do löschen.">x</button>`;
-            document.querySelector('ul').appendChild(newListelememt);
-            // div in dem Li für funktionalität
-            const divInside = document.createElement('div');
-            divInside.classList.add('flex');
-            newListelememt.appendChild(divInside);
-            // button für ändern
-            const changeButton = document.createElement('input')
-            // button für löschen
+                                        <button class="deleteBtn border-1 rounded-2xl p-2 hover:cursor-pointer hover:bg-white hover:text-orange-400 transition-all duration-500" title="Dieses To-do löschen.">x</button>`;
 
+            list.appendChild(newListelememt);
             document.querySelector('input').value = '';
         }
 
@@ -72,6 +82,7 @@
             if (event.target === submitInput) {
                 event.preventDefault();
                 document.querySelector('h2').classList.remove('hidden');
+
                 addToList();
             }
             if (event.target.classList.contains('deleteBtn')) {
