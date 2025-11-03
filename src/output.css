@@ -13,6 +13,10 @@
     --color-black: #000;
     --color-white: #fff;
     --spacing: 0.25rem;
+    --text-xs: 0.75rem;
+    --text-xs--line-height: calc(1 / 0.75);
+    --text-sm: 0.875rem;
+    --text-sm--line-height: calc(1.25 / 0.875);
     --text-2xl: 1.5rem;
     --text-2xl--line-height: calc(2 / 1.5);
     --text-3xl: 1.875rem;
@@ -303,6 +307,18 @@
     font-size: var(--text-6xl);
     line-height: var(--tw-leading, var(--text-6xl--line-height));
   }
+  .text-sm {
+    font-size: var(--text-sm);
+    line-height: var(--tw-leading, var(--text-sm--line-height));
+  }
+  .text-xs {
+    font-size: var(--text-xs);
+    line-height: var(--tw-leading, var(--text-xs--line-height));
+  }
+  .font-bold {
+    --tw-font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-bold);
+  }
   .hyphens-none {
     -webkit-hyphens: none;
     hyphens: none;
@@ -401,11 +417,11 @@ button {
   inherits: false;
   initial-value: solid;
 }
-@property --tw-duration {
+@property --tw-font-weight {
   syntax: "*";
   inherits: false;
 }
-@property --tw-font-weight {
+@property --tw-duration {
   syntax: "*";
   inherits: false;
 }
@@ -413,8 +429,8 @@ button {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
       --tw-border-style: solid;
-      --tw-duration: initial;
       --tw-font-weight: initial;
+      --tw-duration: initial;
     }
   }
 }
